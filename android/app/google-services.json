@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "40419604836",
+    "project_id": "xem-phim-25605",
+    "storage_bucket": "xem-phim-25605.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40419604836:android:478ab0637189f43c4fa271",
+        "android_client_info": {
+          "package_name": "com.codeforany.ott_photo_play"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABBcTpjcxTdNEqqkvsSt9ya2Z79zEBH2k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
