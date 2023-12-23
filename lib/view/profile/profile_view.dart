@@ -127,7 +127,7 @@ class _ProfileViewState extends State<ProfileView> {
                       height: 25,
                     ),
                     Text(
-                      "Code For Any",
+                      "Vy loc",
                       style: TextStyle(
                           color: TColor.bgText,
                           fontSize: 27,

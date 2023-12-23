@@ -130,7 +130,7 @@ class _RegisterViewState extends State<RegisterView> {
                     height: 8,
                   ),
                   Text(
-                    "Add profile picture",
+                    "Thêm ảnh đại diện",
                     style: TextStyle(
                         color: TColor.text,
                         fontSize: 15,
@@ -142,52 +142,64 @@ class _RegisterViewState extends State<RegisterView> {
                 height: 20,
               ),
               RoundTextField(
-                title: "FIRST NAME",
-                hintText: "first name here",
-                controller: txtFirstName,
+                title: "TÊN",
+                hintText: "tên của bạn",
+                controller: txtFirstName, onChanged: (String query) {  },
               ),
               const SizedBox(
                 height: 20,
               ),
               RoundTextField(
-                title: "LAST NAME",
-                hintText: "last name here",
-                controller: txtLastName,
+                title: "HỌ",
+                hintText: "họ của bạn",
+                controller: txtLastName, onChanged: (String query) {  },
               ),
               const SizedBox(
                 height: 20,
               ),
               RoundTextField(
                 title: "EMAIL",
-                hintText: "email here",
+                hintText: "email của bạn",
                 keyboardType: TextInputType.emailAddress,
-                controller: txtEmail,
+                controller: txtEmail, onChanged: (String query) {  },
               ),
               const SizedBox(
                 height: 20,
               ),
               RoundTextField(
-                title: "PASSWORD",
-                hintText: "password here",
+                title: "MẬT KHẨU",
+                hintText: "mật khẩu của bạn",
                 obscureText: true,
-                controller: txtPassword,
+                controller: txtPassword, onChanged: (String query) {  },
               ),
               const SizedBox(
                 height: 20,
               ),
               RoundTextField(
-                title: "CONFIRM PASSWORD",
-                hintText: "confirm password here",
+                title: "XÁC NHẬN MẬT KHẨU",
+                hintText: "xác nhận mật khẩu của bạn",
                 obscureText: true,
-                controller: txtConfirmPassword,
+                controller: txtConfirmPassword, onChanged: (String query) {  },
               ),
               const SizedBox(
                 height: 30,
               ),
               RoundButton(
-                title: "REGISTER",
+                title: "ĐĂNG KÝ",
                 onPressed: () {
-                  registerUser();
+                  // Validate text fields before registering the user
+                  String validationMessage = validateFields();
+                  if (validationMessage.isEmpty) {
+                    registerUser(context);
+                  } else {
+                    // Show an error message if validation fails
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(validationMessage),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  }
                 },
               ),
               const SizedBox(
@@ -200,7 +212,24 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  Future<void> registerUser() async {
+  // Function to validate text fields
+  String validateFields() {
+    if (txtFirstName.text.isEmpty) {
+      return 'Tên không được để trống.';
+    } else if (txtLastName.text.isEmpty) {
+      return 'Họ không được để trống.';
+    } else if (txtEmail.text.isEmpty) {
+      return 'Email không được để trống.';
+    } else if (txtPassword.text.isEmpty) {
+      return 'Mật khẩu không được để trống.';
+    } else if (txtConfirmPassword.text.isEmpty) {
+      return 'Xác nhận mật khẩu không được để trống.';
+    } else {
+      return ''; // Tất cả các trường đã được điền
+    }
+  }
+
+  Future<void> registerUser(BuildContext context) async {
     try {
       UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: txtEmail.text,
@@ -219,10 +248,25 @@ class _RegisterViewState extends State<RegisterView> {
         // Thêm các trường khác nếu cần
       });
 
+      // Show success message using SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Đăng ký thành công !'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+
       print('Đăng ký thành công: ${userCredential.user?.uid}');
     } catch (e) {
       // Xử lý lỗi đăng ký
       print('Lỗi đăng ký: $e');
+      // Show error message using SnackBar
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Đăng ký thất bại. Vui lòng thử lại.'),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
   }
 

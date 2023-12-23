@@ -61,7 +61,7 @@ class _SearchViewState extends State<SearchView> {
                       height: 20,
                       color: TColor.bgText,
                     ),
-                  )),
+                  ), onChanged: (String query) {  },),
             ),
           ),
           Expanded(

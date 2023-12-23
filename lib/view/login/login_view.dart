@@ -97,45 +97,53 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   RoundTextField(
                     title: "EMAIL",
-                    hintText: "email here",
+                    hintText: "email của bạn",
                     keyboardType: TextInputType.emailAddress,
-                    controller: txtEmail,
+                    controller: txtEmail, onChanged: (String query) {  },
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   RoundTextField(
-                    title: "PASSWORD",
-                    hintText: "password here",
+                    title: "MẬT KHẨU",
+                    hintText: "mật khẩu của bạn",
                     obscureText: true,
                     controller: txtPassword,
                     right: TextButton(
                       onPressed: () {
-                         Navigator.push(
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const ForgotPasswordView()));
                       },
                       child: Text(
-                        "FORGOT?",
+                        "QUÊN MẬT KHẨU?",
                         style: TextStyle(
                             color: TColor.text,
                             fontSize: 12,
                             fontWeight: FontWeight.w700),
                       ),
-                    ),
+                    ), onChanged: (String query) {  },
                   ),
                   const SizedBox(
                     height: 30,
                   ),
                   RoundButton(
-                    title: "LOGIN",
+                    title: "ĐĂNG NHẬP",
                     onPressed: () {
-                       Navigator.push(
+                      // Kiểm tra xem các trường có bị trống không
+                      if (txtEmail.text.isEmpty || txtPassword.text.isEmpty) {
+                        // Hiển thị thông báo nếu có trường trống
+                        showSnackbar("Vui lòng điền đầy đủ thông tin.");
+                      } else {
+                        // Nếu không có trường trống, thực hiện đăng nhập
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const MainTabView()));
+                            builder: (context) => const MainTabView(),
+                          ),
+                        );
+                      }
                     },
                   ),
                   const SizedBox(
@@ -152,7 +160,7 @@ class _LoginViewState extends State<LoginView> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
-                          "Social Logins",
+                          "Đăng Nhập Bằng Tài Khoản Xã Hội",
                           style: TextStyle(
                               color: TColor.text,
                               fontSize: 14,
@@ -196,7 +204,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
 
                   Text(
-                    "Don’t have an account?",
+                    "Bạn chưa có tài khoản?",
                     style: TextStyle(
                         color: TColor.subtext,
                         fontSize: 14,
@@ -208,7 +216,7 @@ class _LoginViewState extends State<LoginView> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterView() ));
                     },
                     child: Text(
-                      "REGISTER",
+                      "ĐĂNG KÝ",
                       style: TextStyle(
                           color: TColor.text,
                           fontSize: 16,
@@ -223,6 +231,16 @@ class _LoginViewState extends State<LoginView> {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  // Hàm hiển thị SnackBar
+  void showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 2),
       ),
     );
   }
